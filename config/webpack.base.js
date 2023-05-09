@@ -1,9 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const publicPath = 'pages';
-const getPath = filename => `${publicPath}/${filename}`;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -19,29 +17,46 @@ module.exports = {
   },
   output: {
     clean: true,
-    filename: pathData => {
-      if (pathData.chunk?.name === 'main') {
-        return '[name].[contenthash:5].js';
-      }
-      return getPath('[name]/[name].[contenthash:5].js');
-    },
+    filename: 'js/[name].[contenthash:5].js',
     path: path.resolve(__dirname, '../dist'),
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'initial',
+          priority: 2,
+          minChunks: 2,
+        },
+        common: {
+          test: /.js$/,
+          name: 'common',
+          chunks: 'initial',
+          priority: 1,
+          minChunks: 2,
+        },
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: getPath('home/index.html'),
-      publicPath: '/',
+      filename: 'pages/home/index.html',
       chunks: ['home'],
       template: path.resolve(__dirname, '../src/pages/home/index.html'),
     }),
     new HtmlWebpackPlugin({
-      filename: getPath('editor/index.html'),
-      publicPath: '/',
+      filename: 'pages/editor/index.html',
       chunks: ['editor'],
       template: path.resolve(__dirname, '../src/pages/editor/index.html'),
     }),
     new MiniCssExtractPlugin({
-      filename: getPath('[name]/[name].[contenthash:5].css'),
+      filename: 'css/[name].[contenthash:5].css',
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerPort: 10087,
+      openAnalyzer: true,
     }),
   ],
   module: {
@@ -52,7 +67,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/,
-        type: 'asset/resource',
+        type: 'asset',
         generator: {
           filename: 'assets/[name].[hash:5][ext]',
         },
@@ -63,6 +78,10 @@ module.exports = {
         generator: {
           filename: 'fonts/[name].[hash:5][ext]',
         },
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader'],
       },
       {
         test: /\.s(a|c)ss$/,
