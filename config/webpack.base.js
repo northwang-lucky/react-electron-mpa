@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const { NEED_REPORT = '' } = process.env;
+const needReport = NEED_REPORT === '1';
+
 /** @type {import('webpack').Configuration} */
 module.exports = {
   entry: {
@@ -23,6 +26,13 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/]react/,
+          name: 'react',
+          chunks: 'initial',
+          priority: 3,
+          minChunks: 2,
+        },
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
@@ -54,11 +64,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:5].css',
     }),
-    new BundleAnalyzerPlugin({
-      analyzerPort: 10087,
-      openAnalyzer: true,
-    }),
-  ],
+    needReport &&
+      new BundleAnalyzerPlugin({
+        analyzerPort: 10087,
+        openAnalyzer: true,
+      }),
+  ].filter(Boolean),
   module: {
     rules: [
       {
@@ -87,7 +98,16 @@ module.exports = {
         test: /\.s(a|c)ss$/,
         use: [
           { loader: MiniCssExtractPlugin.loader },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                auto: true,
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                exportLocalsConvention: 'camelCaseOnly',
+              },
+            },
+          },
           'postcss-loader',
           { loader: 'resolve-url-loader' },
           {

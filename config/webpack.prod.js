@@ -1,11 +1,19 @@
 const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.base');
-const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 const prodConfig = {
   mode: 'production',
-  devtool: 'source-map',
+  plugins: [
+    new CompressionPlugin({
+      test: /\.(js|css)(\?.*)?$/i,
+    }),
+  ],
+  performance: {
+    maxAssetSize: 500 * 1024,
+    maxEntrypointSize: 500 * 1024,
+  },
 };
 
 module.exports = merge(prodConfig, baseConfig);
