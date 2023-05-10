@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
 const execa = require('execa');
+const fs = require('fs');
 const inquirer = require('inquirer');
 const InquirerSearchCheckbox = require('inquirer-search-checkbox');
+const path = require('path');
 const { getAllPages } = require('../config/utils/cache-tools');
 
 inquirer.registerPrompt('search-checkbox', InquirerSearchCheckbox);

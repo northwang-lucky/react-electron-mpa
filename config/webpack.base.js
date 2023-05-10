@@ -1,9 +1,6 @@
-const path = require('path');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
-const { NEED_REPORT = '' } = process.env;
-const needReport = NEED_REPORT === '1';
+const path = require('path');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -19,26 +16,41 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
   },
   optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()],
     splitChunks: {
       cacheGroups: {
+        semi: {
+          test: /semi/,
+          name: 'semi',
+          chunks: 'all',
+          priority: 5,
+          minChunks: 2,
+        },
+        lodash: {
+          test: /lodash/,
+          name: 'lodash',
+          chunks: 'all',
+          priority: 4,
+          minChunks: 2,
+        },
         react: {
           test: /[\\/]node_modules[\\/]react/,
           name: 'react',
-          chunks: 'initial',
+          chunks: 'all',
           priority: 3,
           minChunks: 2,
         },
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'initial',
+          chunks: 'all',
           priority: 2,
           minChunks: 2,
         },
         common: {
           test: /.js$/,
           name: 'common',
-          chunks: 'initial',
+          chunks: 'all',
           priority: 1,
           minChunks: 2,
         },
@@ -49,12 +61,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:5].css',
     }),
-    needReport &&
-      new BundleAnalyzerPlugin({
-        analyzerPort: 10087,
-        openAnalyzer: true,
-      }),
-  ].filter(Boolean),
+  ],
   module: {
     rules: [
       {
@@ -96,7 +103,6 @@ module.exports = {
               },
             },
           },
-          'postcss-loader',
           { loader: 'resolve-url-loader' },
           {
             loader: 'sass-loader',

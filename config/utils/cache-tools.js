@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 const { DEV_PAGES } = process.env;
 const devPages = DEV_PAGES ? DEV_PAGES.split(',') : [];

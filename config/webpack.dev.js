@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge');
-const baseConfig = require('./webpack.base');
 const { getEntryAndTemplates } = require('../config/utils/cache-tools');
 const LoadingPlugin = require('./plugins/loading-plugin');
+const baseConfig = require('./webpack.base');
 
 const { entry, templates } = getEntryAndTemplates('dev');
 

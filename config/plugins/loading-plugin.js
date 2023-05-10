@@ -7,17 +7,13 @@ class LoadingPlugin {
       compilation.hooks.buildModule.tap('LoadingPlugin', () => {
         loading.start('Compiling...\n');
       });
-      compilation.hooks.finishModules.tap('LoadingPlugin', () => {
-        loading.stop();
-      });
-      compilation.hooks.failedModule.tap('LoadingPlugin', () => {
-        loading.stop();
-      });
-      compilation.hooks.rebuildModule.tap('LoadingPlugin', () => {
-        loading.stop();
-        loading.start('Compiling...\n');
-      });
-      return true;
+    });
+    compiler.hooks.failed.tap('LoadingPlugin', () => {
+      loading.stop();
+    });
+    compiler.hooks.done.tapAsync('LoadingPlugin', (_, entry) => {
+      loading.stop();
+      entry();
     });
     compiler.hooks.shutdown.tapAsync('LoadingPlugin', entry => {
       loading.stop();

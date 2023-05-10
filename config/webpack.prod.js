@@ -1,8 +1,11 @@
-const { merge } = require('webpack-merge');
 const CompressionPlugin = require('compression-webpack-plugin');
-const baseConfig = require('./webpack.base');
+const { merge } = require('webpack-merge');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { getEntryAndTemplates } = require('../config/utils/cache-tools');
+const baseConfig = require('./webpack.base');
 
+const { NEED_REPORT = '' } = process.env;
+const needReport = NEED_REPORT === '1';
 const { entry, templates } = getEntryAndTemplates('prod');
 
 /** @type {import('webpack').Configuration} */
@@ -14,6 +17,12 @@ const prodConfig = {
     new CompressionPlugin({
       test: /\.(js|css)(\?.*)?$/i,
     }),
+    ...(needReport
+      ? new BundleAnalyzerPlugin({
+          analyzerPort: 10087,
+          openAnalyzer: true,
+        })
+      : []),
   ],
   performance: {
     maxAssetSize: 500 * 1024,
