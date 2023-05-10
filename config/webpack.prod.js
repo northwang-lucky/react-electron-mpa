@@ -1,11 +1,16 @@
 const { merge } = require('webpack-merge');
-const baseConfig = require('./webpack.base');
 const CompressionPlugin = require('compression-webpack-plugin');
+const baseConfig = require('./webpack.base');
+const { getEntryAndTemplates } = require('../config/utils/cache-tools');
+
+const { entry, templates } = getEntryAndTemplates('prod');
 
 /** @type {import('webpack').Configuration} */
 const prodConfig = {
   mode: 'production',
+  entry,
   plugins: [
+    ...templates,
     new CompressionPlugin({
       test: /\.(js|css)(\?.*)?$/i,
     }),

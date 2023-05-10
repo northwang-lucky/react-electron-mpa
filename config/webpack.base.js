@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -8,10 +7,6 @@ const needReport = NEED_REPORT === '1';
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
-  entry: {
-    home: path.resolve(__dirname, '../src/pages/home/index.tsx'),
-    editor: path.resolve(__dirname, '../src/pages/editor/index.tsx'),
-  },
   resolve: {
     alias: {
       '~pages': path.resolve(__dirname, '../src/pages'),
@@ -51,16 +46,6 @@ module.exports = {
     },
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'pages/home/index.html',
-      chunks: ['home'],
-      template: path.resolve(__dirname, '../src/pages/home/index.html'),
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'pages/editor/index.html',
-      chunks: ['editor'],
-      template: path.resolve(__dirname, '../src/pages/editor/index.html'),
-    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:5].css',
     }),
@@ -74,7 +59,10 @@ module.exports = {
     rules: [
       {
         test: /\.(t|j)sx?$/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: { compact: false },
+        },
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/,
