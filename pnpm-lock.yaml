@@ -16,6 +16,7 @@ specifiers:
   css-loader: 6.7.3
   cssnano: 6.0.1
   cz-conventional-changelog: 3.3.0
+  dts-css-modules-loader: 2.0.1
   eslint: 8.22.0
   eslint-config-airbnb-typescript-prettier: 5.0.0
   html-webpack-plugin: 5.5.1
@@ -57,6 +58,7 @@ devDependencies:
   css-loader: 6.7.3_webpack@5.82.0
   cssnano: 6.0.1_postcss@8.4.23
   cz-conventional-changelog: 3.3.0
+  dts-css-modules-loader: 2.0.1_css-loader@6.7.3
   eslint: 8.22.0
   eslint-config-airbnb-typescript-prettier: 5.0.0_lh4kvruaqi3rgcnkbt7axv7w5i
   html-webpack-plugin: 5.5.1_webpack@5.82.0
@@ -2826,6 +2828,14 @@ packages:
     dependencies:
       find-up: 3.0.0
       minimatch: 3.1.2
+    dev: true
+
+  /dts-css-modules-loader/2.0.1_css-loader@6.7.3:
+    resolution: {integrity: sha512-blro23xBe6+gPZCW9AIwG2aL8ot2hyNHDeIUWVoyIYRGfv/5TWEMQNTnKGcuOf5iADyChU6Xbi5nzaj4YCChFQ==}
+    peerDependencies:
+      css-loader: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+    dependencies:
+      css-loader: 6.7.3_webpack@5.82.0
     dev: true
 
   /duplexer/0.1.2:

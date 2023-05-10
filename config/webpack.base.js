@@ -79,16 +79,12 @@ module.exports = {
       {
         test: /\.(png|jpe?g|svg|gif)$/,
         type: 'asset',
-        generator: {
-          filename: 'assets/[name].[hash:5][ext]',
-        },
+        generator: { filename: 'assets/[name].[hash:5][ext]' },
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/,
         type: 'asset/resource',
-        generator: {
-          filename: 'fonts/[name].[hash:5][ext]',
-        },
+        generator: { filename: 'fonts/[name].[hash:5][ext]' },
       },
       {
         test: /\.css$/,
@@ -98,6 +94,10 @@ module.exports = {
         test: /\.s(a|c)ss$/,
         use: [
           { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: 'dts-css-modules-loader',
+            options: { dropEmptyFile: true },
+          },
           {
             loader: 'css-loader',
             options: {

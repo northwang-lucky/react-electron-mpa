@@ -1,5 +1,9 @@
 .body {
   background-color: antiquewhite;
+
+  &-content {
+    position: relative;
+  }
 }
 
 .camel-case {
