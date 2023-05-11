@@ -1,5 +1,5 @@
 config
 dist
-scripts
+*.js
 .gitignore
 *.module.scss.d.ts

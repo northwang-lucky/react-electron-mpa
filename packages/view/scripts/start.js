@@ -72,7 +72,7 @@ async function selectDevPages(allPages) {
   if (!cacheDirExisted) {
     fs.mkdirSync(cacheDirPath);
   }
-  fs.writeFileSync(cachePagesFilePath, JSON.stringify(devPages, null, 2), { encoding: 'utf-8' });
+  fs.writeFileSync(cachePagesFilePath, JSON.stringify(devPages), { encoding: 'utf-8' });
   return devPages;
 }
 
