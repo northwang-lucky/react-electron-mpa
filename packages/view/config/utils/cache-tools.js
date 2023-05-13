@@ -1,6 +1,7 @@
 const fs = require('fs');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+
+/** @typedef {import('@rspack/core/dist/config/builtins').BuiltinsHtmlPluginConfig} HtmlPluginConfig */
 
 const { DEV_PAGES } = process.env;
 const devPages = DEV_PAGES ? DEV_PAGES.split(',') : [];
@@ -14,17 +15,15 @@ function getAllPages() {
 function build(devPages) {
   /** @type {Record<string, string>} */
   const entry = {};
-  /** @type {HtmlWebpackPlugin[]} */
+  /** @type {HtmlPluginConfig[]} */
   const templates = [];
   for (const page of devPages) {
     entry[page] = path.resolve(__dirname, `../../src/pages/${page}/index.tsx`);
-    templates.push(
-      new HtmlWebpackPlugin({
-        filename: `pages/${page}/index.html`,
-        chunks: [page],
-        template: path.resolve(__dirname, `../../src/pages/${page}/index.html`),
-      })
-    );
+    templates.push({
+      filename: `pages/${page}/index.html`,
+      chunks: [page],
+      template: path.resolve(__dirname, `../../src/pages/${page}/index.html`),
+    });
   }
   return { entry, templates };
 }

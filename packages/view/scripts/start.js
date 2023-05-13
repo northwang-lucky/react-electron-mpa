@@ -7,6 +7,8 @@ const { getAllPages } = require('../config/utils/cache-tools');
 
 inquirer.registerPrompt('search-checkbox', InquirerSearchCheckbox);
 
+let restart = false;
+
 /** @param {string[]} allPages */
 async function selectDevPages(allPages) {
   /** @type {string[]} */
@@ -84,21 +86,36 @@ function listenQuit(cp) {
     const input = data.toString().trim();
     if (input === 'q') {
       cp.kill('SIGTERM');
+      return;
+    }
+    if (input === 'rs') {
+      cp.kill('SIGTERM');
+      restart = true;
     }
   });
+}
+
+/** @param {string[]} devPages */
+function start(devPages) {
+  const devConfigPath = path.resolve(__dirname, '../config/rspack.dev.js');
+  const cp = execa('rspack', ['serve', '--config', devConfigPath], {
+    stdio: 'inherit',
+    env: { DEV_PAGES: devPages.join(',') },
+  });
+  cp.finally(() => {
+    if (restart) {
+      restart = false;
+      start(devPages);
+      return;
+    }
+    console.log('See you :)');
+    process.exit();
+  });
+  listenQuit(cp);
 }
 
 (async function main() {
   const allPages = getAllPages();
   const devPages = await selectDevPages(allPages);
-  const devConfigPath = path.resolve(__dirname, '../config/webpack.dev.js');
-  const cp = execa('webpack', ['serve', '--config', devConfigPath], {
-    stdio: 'inherit',
-    env: { DEV_PAGES: devPages.join(',') },
-  });
-  cp.finally(() => {
-    console.log('See you :)');
-    process.exit();
-  });
-  listenQuit(cp);
+  start(devPages);
 })();

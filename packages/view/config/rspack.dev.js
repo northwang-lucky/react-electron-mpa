@@ -1,15 +1,16 @@
 const { merge } = require('webpack-merge');
-const { getEntryAndTemplates } = require('../config/utils/cache-tools');
-const LoadingPlugin = require('./plugins/loading-plugin');
-const baseConfig = require('./webpack.base');
+const { getEntryAndTemplates } = require('./utils/cache-tools');
+const baseConfig = require('./rspack.base');
 
 const { entry, templates } = getEntryAndTemplates('dev');
 
-/** @type {import('webpack').Configuration} */
+/** @type {import('@rspack/cli').Configuration} */
 const devConfig = {
   mode: 'development',
   entry,
-  plugins: [...templates, new LoadingPlugin()],
+  builtins: {
+    html: [...templates],
+  },
   devtool: 'eval-source-map',
   devServer: {
     hot: true,

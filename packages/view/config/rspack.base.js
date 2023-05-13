@@ -1,22 +1,27 @@
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
-/** @type {import('webpack').Configuration} */
+/** @type {import('@rspack/cli').Configuration} */
 module.exports = {
+  builtins: {
+    css: {
+      modules: {
+        localIdentName: '[path][name]__[local]--[hash:5]',
+        localsConvention: 'camelCaseOnly',
+      },
+    },
+  },
   resolve: {
     alias: {
       '~pages': path.resolve(__dirname, '../src/pages'),
     },
-    extensions: ['.ts', '.tsx', '.js'],
   },
   output: {
     clean: true,
-    filename: 'js/[name].[contenthash:5].js',
     path: path.resolve(__dirname, '../dist'),
+    filename: 'js/[name].[contenthash:5].js',
+    cssFilename: 'css/[name].[contenthash:5].css',
   },
   optimization: {
-    minimizer: ['...', new CssMinimizerPlugin()],
     splitChunks: {
       cacheGroups: {
         semi: {
@@ -57,20 +62,8 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:5].css',
-    }),
-  ],
   module: {
     rules: [
-      {
-        test: /\.(t|j)sx?$/,
-        use: {
-          loader: 'babel-loader',
-          options: { compact: false },
-        },
-      },
       {
         test: /\.(png|jpe?g|svg|gif)$/,
         type: 'asset',
@@ -82,33 +75,8 @@ module.exports = {
         generator: { filename: 'fonts/[name].[hash:5][ext]' },
       },
       {
-        test: /\.css$/,
-        use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader'],
-      },
-      {
-        test: /\.s(a|c)ss$/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          {
-            loader: 'dts-css-modules-loader',
-            options: { dropEmptyFile: true },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                auto: true,
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                exportLocalsConvention: 'camelCaseOnly',
-              },
-            },
-          },
-          { loader: 'resolve-url-loader' },
-          {
-            loader: 'sass-loader',
-            options: { sourceMap: true },
-          },
-        ],
+        test: /\.module\.s(a|c)ss$/,
+        type: 'css/module',
       },
     ],
   },
