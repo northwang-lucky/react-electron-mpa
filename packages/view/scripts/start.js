@@ -80,8 +80,17 @@ async function selectDevPages(allPages) {
   const allPages = getAllPages();
   const devPages = await selectDevPages(allPages);
   const devConfigPath = path.resolve(__dirname, '../config/webpack.dev.js');
-  execa('webpack', ['serve', '--config', devConfigPath], {
+  const p = execa('webpack', ['serve', '--config', devConfigPath], {
     stdio: 'inherit',
     env: { DEV_PAGES: devPages.join(',') },
+  });
+
+  process.stdin.resume();
+  process.stdin.setEncoding('utf-8');
+  process.stdin.on('data', data => {
+    const input = data.toString().trim();
+    if (input === 'q') {
+      p.kill('SIGTERM');
+    }
   });
 })();
