@@ -76,21 +76,29 @@ async function selectDevPages(allPages) {
   return devPages;
 }
 
-(async function main() {
-  const allPages = getAllPages();
-  const devPages = await selectDevPages(allPages);
-  const devConfigPath = path.resolve(__dirname, '../config/webpack.dev.js');
-  const p = execa('webpack', ['serve', '--config', devConfigPath], {
-    stdio: 'inherit',
-    env: { DEV_PAGES: devPages.join(',') },
-  });
-
+/** @param {import('execa').ExecaChildProcess<string>} cp */
+function listenQuit(cp) {
   process.stdin.resume();
   process.stdin.setEncoding('utf-8');
   process.stdin.on('data', data => {
     const input = data.toString().trim();
     if (input === 'q') {
-      p.kill('SIGTERM');
+      cp.kill('SIGTERM');
     }
   });
+}
+
+(async function main() {
+  const allPages = getAllPages();
+  const devPages = await selectDevPages(allPages);
+  const devConfigPath = path.resolve(__dirname, '../config/webpack.dev.js');
+  const cp = execa('webpack', ['serve', '--config', devConfigPath], {
+    stdio: 'inherit',
+    env: { DEV_PAGES: devPages.join(',') },
+  });
+  cp.finally(() => {
+    console.log('See you :)');
+    process.exit();
+  });
+  listenQuit(cp);
 })();
