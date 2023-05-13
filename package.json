@@ -6,9 +6,9 @@
   "description": "React electron MPA application",
   "main": "index.js",
   "scripts": {
+    "cz": "cz",
     "sv": "standard-version",
     "prepare": "rimraf ./.husky && husky install && pnpm husky:pre-commit-hook && pnpm husky:commit-msg-hook",
-    "commit": "cz",
     "commit:lint": "commitlint --edit",
     "husky:pre-commit-hook": "husky add .husky/pre-commit \"pnpm lint-staged\"",
     "husky:commit-msg-hook": "husky add .husky/commit-msg \"pnpm commit:lint\"",
@@ -35,5 +35,9 @@
     "rimraf": "3.0.2",
     "standard-version": "9.5.0",
     "typescript": "5.0.4"
+  },
+  "packageManager": "pnpm@7.29.1",
+  "engines": {
+    "node": "^14.21.2"
   }
 }
