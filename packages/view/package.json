@@ -23,6 +23,7 @@
     "react-refresh": "0.14.0",
     "reset.css": "2.0.2",
     "sass": "1.62.1",
+    "typed-css-modules": "0.7.2",
     "typescript": "5.0.4",
     "webpack-merge": "5.8.0"
   }

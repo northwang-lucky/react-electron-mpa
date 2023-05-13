@@ -1,11 +1,12 @@
 .body {
   background-color: antiquewhite;
 
-  &-content {
+  .body-content {
     position: relative;
+    color: blue;
   }
-}
 
-.camel-case {
-  position: relative;
+  &-text {
+    color: red;
+  }
 }

@@ -77,6 +77,7 @@ module.exports = {
       {
         test: /\.module\.s(a|c)ss$/,
         type: 'css/module',
+        use: [require.resolve('./loader/scss-module-dts-loader.js')],
       },
     ],
   },
