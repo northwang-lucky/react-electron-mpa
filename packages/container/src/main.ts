@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import path from 'path';
+import { loadContent, routes } from '@/router';
 
 const createHomeWindow = (): void => {
   const home = new BrowserWindow({
@@ -8,8 +8,7 @@ const createHomeWindow = (): void => {
     minWidth: 800,
     minHeight: 600,
   });
-
-  home.loadFile(path.resolve(__dirname, '../../view/dist/pages/home/index.html'));
+  loadContent(home, routes.home);
 };
 
 app.whenReady().then(() => {

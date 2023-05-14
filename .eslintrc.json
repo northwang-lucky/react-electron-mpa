@@ -15,8 +15,20 @@
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-var-requires": "off",
     "func-names": "off",
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "pattern": {
+          "": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      }
+    ],
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": ["error", { "ignore": ["@/*"] }],
     "no-extend-native": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",

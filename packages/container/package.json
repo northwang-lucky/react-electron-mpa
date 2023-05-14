@@ -5,8 +5,8 @@
   "description": "Electron part",
   "main": "./lib/main.js",
   "scripts": {
-    "start": "gulp",
-    "start:container": "electron .",
+    "start": "cross-env NODE_ENV=development electron .",
+    "serve": "gulp",
     "compile": "rimraf ./lib && babel ./src --out-dir ./lib --extensions \".ts\"",
     "postinstall": "pnpm run compile"
   },
@@ -15,6 +15,7 @@
     "@babel/core": "7.21.8",
     "@babel/preset-env": "7.21.5",
     "@babel/preset-typescript": "7.21.5",
+    "babel-plugin-module-resolver": "5.0.0",
     "electron": "24.2.0",
     "gulp": "4.0.2",
     "gulp-cli": "2.3.0",

@@ -12,7 +12,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '~pages': path.resolve(__dirname, '../src/pages'),
+      '@': path.resolve(__dirname, '../src'),
     },
   },
   output: {

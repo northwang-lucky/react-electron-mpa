@@ -7,7 +7,7 @@ const App: FC = () => {
   const [count, setCount] = useState(0);
   return (
     <div className={styles.body}>
-      <p className={styles.bodyContent}>Hello, this is Home!</p>
+      <p className={styles.bodyContent}>Hello electron, this is Home!</p>
       <a href="/pages/editor">To Editor</a>
       <Avatar src={GitHub} />
       <p>Count: {count}</p>
