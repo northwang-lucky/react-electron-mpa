@@ -79,17 +79,26 @@ async function selectDevPages(allPages) {
 }
 
 /** @param {import('execa').ExecaChildProcess<string>} cp */
+function quit(cp) {
+  if (process.platform === 'win32') {
+    execa('taskkill', ['/f', '/t', '/pid', cp.pid], { stdin: 'ignore' });
+    return;
+  }
+  cp.kill('SIGTERM');
+}
+
+/** @param {import('execa').ExecaChildProcess<string>} cp */
 function listenQuit(cp) {
   process.stdin.resume();
   process.stdin.setEncoding('utf-8');
   process.stdin.on('data', data => {
     const input = data.toString().trim();
     if (input === 'q') {
-      cp.kill('SIGTERM');
+      quit(cp);
       return;
     }
     if (input === 'rs') {
-      cp.kill('SIGTERM');
+      quit(cp);
       restart = true;
     }
   });
@@ -100,9 +109,10 @@ function start(devPages) {
   const devConfigPath = path.resolve(__dirname, '../config/rspack.dev.js');
   const cp = execa('rspack', ['serve', '--config', devConfigPath], {
     stdio: 'inherit',
+    cleanup: true,
     env: { DEV_PAGES: devPages.join(',') },
   });
-  cp.finally(() => {
+  cp.catch(() => {}).finally(() => {
     if (restart) {
       restart = false;
       start(devPages);

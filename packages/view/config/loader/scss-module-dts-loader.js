@@ -9,7 +9,7 @@ const creator = new DtsCreator({
 module.exports = function (originContent) {
   const { css } = sass.compileString(originContent);
   creator.create(this.resourcePath, css).then(content => {
-    content.writeFile(formatted => formatted.replace(/\s$/, ''));
+    content.writeFile(formatted => formatted.replace(/\s$/, '').replace(/\r\n/g, '\n'));
   });
   return css;
 };
