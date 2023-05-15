@@ -5,7 +5,7 @@ import type { Route, RouteNames, Routes } from './types';
 const devMode = process.env.NODE_ENV === 'development';
 
 const BASE_URL = 'http://localhost:10086/pages';
-const BASE_PATH = path.resolve(__dirname, '../../../view/dist/pages');
+const BASE_PATH = path.resolve(__dirname, '../../../../dist/view/pages');
 
 const routeNames: RouteNames = ['home', 'editor'];
 

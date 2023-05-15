@@ -6,8 +6,8 @@
   "description": "React MPA part",
   "scripts": {
     "start": "node ./scripts/start.js",
-    "build": "rspack --config ./config/rspack.prod.js",
-    "build:report": "npm run build -- --analyze",
+    "build": "node ./scripts/build.js",
+    "build:report": "cross-env NEED_REPORT=1 npm run build",
     "sv": "standard-version"
   },
   "devDependencies": {

@@ -7,9 +7,10 @@
   "main": "./lib/main.js",
   "scripts": {
     "start": "node ./scripts/start.js",
-    "serve": "gulp",
     "compile": "rimraf ./lib && babel ./src --out-dir ./lib --extensions \".ts\"",
-    "postinstall": "pnpm run compile",
+    "postinstall": "pnpm compile",
+    "package": "pnpm compile && electron-forge package",
+    "make": "pnpm compile && electron-forge make",
     "sv": "standard-version"
   },
   "devDependencies": {
@@ -17,6 +18,10 @@
     "@babel/core": "7.21.8",
     "@babel/preset-env": "7.21.5",
     "@babel/preset-typescript": "7.21.5",
+    "@electron-forge/cli": "6.1.1",
+    "@electron-forge/core": "6.1.1",
+    "@electron-forge/maker-squirrel": "6.1.1",
+    "@electron-forge/maker-zip": "6.1.1",
     "babel-plugin-module-resolver": "5.0.0",
     "electron": "24.2.0",
     "gulp": "4.0.2",

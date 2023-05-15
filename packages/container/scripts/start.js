@@ -51,7 +51,7 @@ function start() {
     stdio: 'inherit',
     cleanup: true,
   });
-  const electron_cp = execa('electron', [process.cwd()], {
+  const electron_cp = execa('electron-forge', [process.cwd()], {
     stdio: 'inherit',
     cleanup: true,
     env: { NODE_ENV: 'development' },
