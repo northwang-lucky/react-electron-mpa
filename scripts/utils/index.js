@@ -1,3 +1,5 @@
+const rimraf = require('rimraf');
+
 /** @typedef {import('execa').ExecaChildProcess<string>} ExecaChildProcess */
 
 /** @param {ExecaChildProcess[]} cps */
@@ -19,4 +21,11 @@ function onQuit(cb) {
   process.stdin.on('data', data => cb(data.toString().trim()));
 }
 
-module.exports = { quit, onQuit };
+/** @param {string} pathname */
+function del(pathname) {
+  return new Promise((resolve, reject) => {
+    rimraf(pathname, err => (err ? reject(err) : resolve()));
+  });
+}
+
+module.exports = { quit, onQuit, del };

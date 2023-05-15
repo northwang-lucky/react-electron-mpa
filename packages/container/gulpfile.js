@@ -9,7 +9,7 @@ function clean(cb) {
 }
 
 function compile() {
-  return execa('pnpm', ['compile'], { stdio: 'inherit' });
+  return execa('yarn', ['compile'], { stdio: 'inherit' });
 }
 
 module.exports.default = function () {

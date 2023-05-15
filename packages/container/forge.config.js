@@ -1,12 +1,11 @@
+const path = require('path');
+
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    out: path.resolve(__dirname, './dist'),
+    overwrite: true,
+  },
   makers: [
-    {
-      name: '@electron-forge/maker-squirrel',
-      config: {
-        name: 'electron_quick_start',
-      },
-    },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],

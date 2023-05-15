@@ -110,3 +110,4 @@ dist
 .vscode/launch.json
 
 packages/container/lib
+packages/container/static

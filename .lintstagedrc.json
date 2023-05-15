@@ -1,3 +1,3 @@
 {
-  "packages/**/*.(ts|tsx)": ["pnpm lint-staged:format", "pnpm lint-staged:eslint"]
+  "packages/**/*.(ts|tsx)": ["yarn lint-staged:format", "yarn lint-staged:eslint"]
 }
