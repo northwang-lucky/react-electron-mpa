@@ -14,14 +14,18 @@
     "husky:commit-msg-hook": "husky add .husky/commit-msg \"pnpm commit:lint\"",
     "lint-staged": "lint-staged",
     "lint-staged:format": "prettier -w",
-    "lint-staged:eslint": "eslint"
+    "lint-staged:eslint": "eslint",
+    "start:view": "pnpm -F @react-electron-mpa/view start",
+    "start:container": "pnpm -F @react-electron-mpa/container start"
   },
   "devDependencies": {
     "@commitlint/cli": "17.4.2",
     "@commitlint/config-conventional": "17.4.2",
     "@types/inquirer": "8.2.5",
     "@types/rimraf": "3",
+    "chalk": "4.1.2",
     "commitizen": "4.3.0",
+    "compressing": "1.9.0",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.22.0",
@@ -36,8 +40,8 @@
     "standard-version": "9.5.0",
     "typescript": "5.0.4"
   },
-  "packageManager": "pnpm@7.29.1",
   "engines": {
-    "node": "^14.21.2"
+    "node": ">=14.19.3 <16",
+    "pnpm": ">=7.20.0 <8"
   }
 }

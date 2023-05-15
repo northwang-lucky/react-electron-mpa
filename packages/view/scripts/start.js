@@ -1,8 +1,10 @@
+const chalk = require('chalk');
 const execa = require('execa');
 const fs = require('fs');
 const inquirer = require('inquirer');
 const InquirerSearchCheckbox = require('inquirer-search-checkbox');
 const path = require('path');
+const { onQuit, quit } = require('../../../scripts/utils');
 const { getAllPages } = require('../config/utils/cache-tools');
 
 inquirer.registerPrompt('search-checkbox', InquirerSearchCheckbox);
@@ -23,8 +25,12 @@ async function selectDevPages(allPages) {
     /** @type {string[]} */
     const pages = JSON.parse(content);
     cachePages.push(...pages);
-    console.log('The dev pages you selected last time:');
-    const pageList = cachePages.reduce((rst, page, index) => `${rst ? `${rst}\n` : rst}${index + 1}) ${page}`, '');
+    console.log(chalk.green('The dev pages you selected last time:'));
+    const pageList = cachePages.reduce((rst, page, index) => {
+      const order = index + 1;
+      const previous = rst ? `${rst}\n` : rst;
+      return chalk.yellow(`${previous}${order}. ${page}`);
+    }, '');
     console.log(pageList, '\n');
   }
 
@@ -78,21 +84,12 @@ async function selectDevPages(allPages) {
   return devPages;
 }
 
-/** @param {import('execa').ExecaChildProcess<string>} cp */
-function quit(cp) {
-  if (process.platform === 'win32') {
-    execa('taskkill', ['/f', '/t', '/pid', cp.pid], { stdin: 'ignore' });
-    return;
-  }
-  cp.kill('SIGTERM');
-}
-
-/** @param {import('execa').ExecaChildProcess<string>} cp */
-function listenQuit(cp) {
-  process.stdin.resume();
-  process.stdin.setEncoding('utf-8');
-  process.stdin.on('data', data => {
-    const input = data.toString().trim();
+/**
+ * @param {string[]} devPages
+ * @param {import('execa').ExecaChildProcess<string>} cp
+ */
+function listenQuit(devPages, cp) {
+  onQuit(input => {
     if (input === 'q') {
       quit(cp);
       return;
@@ -101,6 +98,16 @@ function listenQuit(cp) {
       quit(cp);
       restart = true;
     }
+  });
+  cp.catch(() => {}).finally(() => {
+    if (restart) {
+      restart = false;
+      console.clear();
+      start(devPages);
+      return;
+    }
+    console.log('See you :)');
+    process.exit();
   });
 }
 
@@ -112,16 +119,7 @@ function start(devPages) {
     cleanup: true,
     env: { DEV_PAGES: devPages.join(',') },
   });
-  cp.catch(() => {}).finally(() => {
-    if (restart) {
-      restart = false;
-      start(devPages);
-      return;
-    }
-    console.log('See you :)');
-    process.exit();
-  });
-  listenQuit(cp);
+  listenQuit(devPages, cp);
 }
 
 (async function main() {

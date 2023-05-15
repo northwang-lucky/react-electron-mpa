@@ -8,7 +8,9 @@ importers:
       '@commitlint/config-conventional': 17.4.2
       '@types/inquirer': 8.2.5
       '@types/rimraf': '3'
+      chalk: 4.1.2
       commitizen: 4.3.0
+      compressing: 1.9.0
       cross-env: 7.0.3
       cz-conventional-changelog: 3.3.0
       eslint: 8.22.0
@@ -27,7 +29,9 @@ importers:
       '@commitlint/config-conventional': 17.4.2
       '@types/inquirer': 8.2.5
       '@types/rimraf': 3.0.2
+      chalk: 4.1.2
       commitizen: 4.3.0
+      compressing: 1.9.0
       cross-env: 7.0.3
       cz-conventional-changelog: 3.3.0
       eslint: 8.22.0
@@ -71,8 +75,6 @@ importers:
       '@rspack/core': 0.1.10
       '@types/react': 17.0.59
       '@types/react-dom': 17.0.20
-      chalk: 4.1.2
-      compressing: 1.9.0
       react: 17.0.2
       react-dom: 17.0.2
       react-refresh: 0.14.0
@@ -87,8 +89,6 @@ importers:
       '@rspack/core': 0.1.10
       '@types/react': 17.0.59
       '@types/react-dom': 17.0.20
-      chalk: 4.1.2
-      compressing: 1.9.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-refresh: 0.14.0
@@ -1835,6 +1835,7 @@ packages:
     resolution: {integrity: sha512-v0PiUvnyzsfP51JXqPjnd0O5yjrk7ppd4ftWrvcJGEMe0kiQJRQBqNmoytLJG5xEkXoLGfJjg8Kvn4P7r0eb5Q==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -1843,6 +1844,7 @@ packages:
     resolution: {integrity: sha512-b3+Gg7MYlA9MnKSj9+uHj1XejkYNKoTaDA/Oxs0L2NkNM8k/+CnlEDW2U1DSUnqGAJa/r1ILPq7pqtDlqaZFcA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -1851,6 +1853,7 @@ packages:
     resolution: {integrity: sha512-yNs9PJqIZjK6mMtnSvn7EaU3lorymYRR8qW/7FG9zO5xvQQu4VwojOXA3sKxU9fCtw5EW8Uw6ZX92ZZzYrAz9g==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -1859,6 +1862,7 @@ packages:
     resolution: {integrity: sha512-NQbVhTCvTGa3AyKKEMCenXsovNpGsSRqr4p1ULGKJ0zs2ekKLVRp1pBfPvjbx9VkdNWY4Sdy/vfwNcSGHk23qg==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true

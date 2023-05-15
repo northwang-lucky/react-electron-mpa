@@ -1,14 +1,16 @@
 {
   "name": "@react-electron-mpa/container",
   "version": "0.0.0",
+  "private": true,
   "author": "northwang-lucky",
   "description": "Electron part",
   "main": "./lib/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron .",
+    "start": "node ./scripts/start.js",
     "serve": "gulp",
     "compile": "rimraf ./lib && babel ./src --out-dir ./lib --extensions \".ts\"",
-    "postinstall": "pnpm run compile"
+    "postinstall": "pnpm run compile",
+    "sv": "standard-version"
   },
   "devDependencies": {
     "@babel/cli": "7.21.5",
